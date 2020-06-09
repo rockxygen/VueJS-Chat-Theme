@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VueJS Chat Theme</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+</head>
+<body>
+    <div class="chat">
+        <div class="sidebar">
+            <div class="search">
+                <input type="text" placeholder="Ara..." v-model="searchText">
+                <i class="fa fa-search"></i>
+            </div>
+            <div class="contacts">
+                <div class="list_result" v-if="message">Henüz mesajlaştığınız kimse yok.</div>
+                <ul>
+                    <li v-for="(contact, id) in contactsSearch" :key="id" :class="{ active : id === activeClass }">
+                        <a href="#" @click="actived(id)">
+                            <img :src="contact.img" alt="">
+                            <div class="contact">
+                                <div class="name">{{ contact.name }}</div>
+                                <div class="message">{{ contact.m_preview }}</div>
+                            </div>
+                            <div class="notification" v-if="contact.new !== 0">{{ contact.new }}</div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            <div class="message-header">
+                <div class="user-info">
+                    <img src="https://vuejs.org/images/logo.png" alt="">
+                    <div class="user">
+                        <div class="name">{{ selectedName }}</div>
+                        <div class="time">a few seconds ago</div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <ul>
+                        <li>
+                            <a href="#"><i class="fa fa-info-circle"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-ellipsis-v"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="message-content">
+                <div :class="{ me : c.from == 'me'}" class="message" v-for="c in conversation">
+                    <div class="bubble">
+                        {{ c.content }}
+                    </div>
+                    <div class="time">{{ c.created_date | timeFormat }}</div>
+                </div>
+            </div>
+            <div class="message-form">
+                <ul>
+                    <li class="emoji-btn">
+                        <a href=""><i class="fa fa-laugh"></i></a>
+                    </li>
+                    <li class="input">
+                        <input type="text" placeholder="Bir şeyler yaz...">
+                    </li>
+                    <li class="sound-btn">
+                        <a href=""><i class="fa fa-microphone"></i></a>
+                    </li>
+                    <li class="img-btn">
+                        <a href=""><i class="fa fa-image"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        new Vue({
+           el: '.chat',
+           methods: {
+               actived(item){
+                   this.activeClass = item;
+                   this.selectedName = this.contacts[item].name;
+               }
+           },
+           data: {
+               aDay: 24*60*60*1000,
+               activeClass: 0,
+               searchText: '',
+               message: false,
+               selectedName: null,
+               conversation: [
+                   {
+                    "from": "me",
+                    "created_date": Date.now(),
+                    "content": "Merhaba nasılsın?"
+                   },
+                   {
+                    "from": "me",
+                    "created_date": Date.now(),
+                    "content": "Nasıl gidiyor?"
+                   },
+                   {
+                    "from": "",
+                    "created_date": Date.now(),
+                    "content": "İyidir sen nasılsın?"
+                   },
+                   {
+                    "from": "me",
+                    "created_date": Date.now(),
+                    "content": "Teşekkürler bende iyiyim."
+                   }
+               ],
+               contacts: [
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Cain Gray",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 0
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Abel Fox",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 2
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "John Doe",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 5
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Helter Skelt",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 0
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Marcus Webb",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 4
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Travis Backer",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 0
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Darius Claus",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 1
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "İzon Rahel",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 0
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Cain Gray",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 2
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Cain Gray",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 0
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Cain Gray",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 0
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Cain Gray",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 0
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Cain Gray",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 0
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Cain Gray",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 0
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Cain Gray",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 0
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Cain Gray",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 0
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Cain Gray",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 0
+                    },
+                    {
+                        "img": "https://vuejs.org/images/logo.png",
+                        "name": "Cain Gray",
+                        "m_preview": "Bu bir deneme mesajıdır.",
+                        "new": 0
+                    }
+                ]
+           },
+           computed: {
+               contactsSearch(){
+                   return this.contacts.filter((contact) => {
+                       return contact.name.toLowerCase().match(this.searchText.toLowerCase())
+                   });
+               }
+           },
+           filters: {
+               timeFormat(value){
+                   return moment(value).fromNow();
+               }
+           },
+           mounted() {
+               this.selectedName = this.contacts[this.activeClass].name;
+           },
+        });
+    </script>
+</body>
+</html>
