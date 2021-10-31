@@ -1,2 +1,4 @@
 # VueJS-Chat-Theme
-VueJS chat theme. @tayfunerbilen 'in hazırladığı Chat arayüzü.
+Vue.js chat theme.
+
+[Demo](https://rockxygen.github.io/VueJS-Chat-Theme/)
